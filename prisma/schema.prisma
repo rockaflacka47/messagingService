@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int      @id @default(autoincrement()) @db.UnsignedInt
+  created_at DateTime @default(now()) @db.Timestamp(0)
+  username   String   @db.VarChar(255)
+  password   String   @db.VarChar(255)
+  name       String   @db.VarChar(255)
+  number     String   @unique(map: "number") @db.VarChar(255)
+}
+
+model Conversation {
+  id            Int      @id @default(autoincrement()) @db.UnsignedInt
+  created_at    DateTime @default(now()) @db.Timestamp(0)
+  user_one      Int
+  user_two      Int
+  name          String   @default("Conversation") @db.VarChar(255)
+  updated_at    DateTime @default(now()) @db.Timestamp(0)
+  messages_sent Int      @default(0)
+  archived      Boolean  @default(false)
+  user_one_name String   @db.VarChar(255)
+  user_two_name String   @db.VarChar(255)
+
+  @@unique([user_one, user_two], map: "user_one_user_two")
+}
+
+model Message {
+  id              Int      @id @default(autoincrement()) @db.UnsignedInt
+  created_at      DateTime @default(now()) @db.Timestamp(0)
+  body            String   @db.VarChar(8000)
+  user_id         Int
+  conversation_id Int
+  visible         Boolean  @default(dbgenerated("b'1'")) @db.Bit(1)
+}
