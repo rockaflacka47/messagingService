@@ -34,14 +34,20 @@ router.post(
   })
 );
 
-router.get(
+router.post(
   "/getForConvoPage",
   runAsync(async (req: Request, res: Response) => {
     log.info(req.body);
     let data = await getForConvoByPage(req.body.convo_id, req.body.page);
+    let nextPage;
+    if (data.length > 0) {
+      nextPage = req.body.page + 1;
+    } else {
+      nextPage = -1;
+    }
     let ret = {
       currPage: req.body.page,
-      nextPage: req.body.page + 1,
+      nextPage: nextPage,
       data: data,
     };
     res.send(JSON.stringify(ret));
@@ -52,22 +58,30 @@ router.post(
   "/sendMessage",
   runAsync(async (req: Request, res: Response) => {
     log.info(req.body);
+
+    let user_one = await userService.getUserById(req.body.user_one);
+    let user_two;
+    if (req.body.user_two) {
+      user_two = await userService.getUserById(req.body.user_two);
+    } else if (req.body.number) {
+      user_two = await userService.getUserByNumber(req.body.number);
+    }
     let convo = await conversationService.getConvoByIds(
       req.body.user_one,
-      req.body.user_two
+      user_two.id
     );
-    let user_one = await userService.getUserById(req.body.user_one);
-    let user_two = await userService.getUserById(req.body.user_two);
+    log.info("in first: " + convo);
     let id = undefined === convo || null === convo ? -1 : convo.id;
     convo = await conversationService.createOrUpdateConversationObject(
       id,
       req.body.name,
       req.body.user_one,
-      req.body.user_two,
+      user_two.id,
       undefined === convo || null == convo ? 0 : convo.messages_sent,
       user_one.name,
       user_two.name
     );
+    log.info(convo);
     //create message here
     let message = await createMessageInConvo(
       req.body.body,

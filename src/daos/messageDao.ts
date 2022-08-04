@@ -52,10 +52,17 @@ export async function getForConvoByPage(convoId: number, page: number) {
     const ret = await prisma.Message.findMany({
       skip: page * 10,
       take: 10,
+      orderBy: [
+        {
+          created_at: "desc",
+        },
+      ],
       where: {
         conversation_id: convoId,
       },
     });
+
+    ret.reverse();
     log.info(ret);
     return ret;
   } catch (err: any) {

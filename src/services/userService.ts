@@ -13,18 +13,22 @@ router.post(
   runAsync(async (req: Request, res: Response) => {
     log.info(req.body);
     let hashedPw = passwordHash.generate(req.body.password);
+    let number = Math.floor(
+      Math.random() * (99999 - 10000 + 1) + 10000
+    ).toString();
     let ret = await createUser(
       req.body.username,
       hashedPw,
       req.body.name,
-      req.body.number
+      number
     );
     if (ret === "ALREADY_EXISTS") {
       res.status(405).send("Number Already Exists");
     } else if (ret === "failed") {
       res.status(400).send("Operation Failed");
     }
-    res.send(JSON.stringify(ret));
+    res.json({ auth: true, result: ret });
+    // res.send(JSON.stringify(ret));
   })
 );
 
@@ -91,4 +95,5 @@ async function getUserByNumber(num: number) {
 module.exports = {
   router: router,
   getUserById: getUserById,
+  getUserByNumber: getUserByNumber,
 };

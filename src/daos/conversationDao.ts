@@ -122,6 +122,11 @@ export async function deleteMessage(id: Number) {
 export async function getConvos(userId: number, archived: boolean) {
   try {
     const ret = await prisma.conversation.findMany({
+      orderBy: [
+        {
+          updated_at: "desc",
+        },
+      ],
       where: {
         archived: archived,
         OR: [

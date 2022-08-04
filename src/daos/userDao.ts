@@ -80,25 +80,32 @@ export async function updateUser(username, pw, name, number, id) {
   }
 }
 
-export async function getUser(id){
+export async function getUser(id) {
   try {
     let user = await prisma.User.findUnique({
       where: {
-        id: id
-      }
+        id: id,
+      },
     });
-    return user;
-  }
 
+    return user;
+  } catch (err: any) {
+    log.info(err);
+    return null;
+  }
 }
 
-export async function getUserByNum(num){
+export async function getUserByNum(num) {
   try {
     let user = await prisma.User.findUnique({
       where: {
-        number: num
-      }
+        number: num,
+      },
     });
+    log.info(user);
     return user;
+  } catch (err: any) {
+    log.info(err);
+    return null;
   }
 }

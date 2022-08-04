@@ -20,7 +20,9 @@ async function createOrUpdateConversationObject(
   name_one: String,
   name_two: String
 ) {
-  log.info("in create convo");
+  log.info("id: " + id);
+  log.info("one id: " + user_one);
+  log.info("two id: " + user_two);
 
   let ret = await createOrUpdateConversation(
     id,
@@ -66,7 +68,7 @@ router.post(
   })
 );
 
-router.get(
+router.post(
   "/getConvos",
   runAsync(async (req: Request, res: Response) => {
     log.info(req.body);
