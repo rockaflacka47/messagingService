@@ -50,8 +50,8 @@ export async function deleteMessage(id: Number) {
 export async function getForConvoByPage(convoId: number, page: number) {
   try {
     const ret = await prisma.Message.findMany({
-      skip: page * 10,
-      take: 10,
+      skip: page * 20,
+      take: 20,
       orderBy: [
         {
           created_at: "desc",

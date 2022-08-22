@@ -6,6 +6,7 @@ import {
   getForConvoByPage,
 } from "../daos/messageDao";
 
+import { io } from "../api";
 var conversationService = require("./conversationService");
 
 var userService = require("./userService");
@@ -66,11 +67,12 @@ router.post(
     } else if (req.body.number) {
       user_two = await userService.getUserByNumber(req.body.number);
     }
+
     let convo = await conversationService.getConvoByIds(
       req.body.user_one,
       user_two.id
     );
-    log.info("in first: " + convo);
+
     let id = undefined === convo || null === convo ? -1 : convo.id;
     convo = await conversationService.createOrUpdateConversationObject(
       id,
@@ -81,14 +83,14 @@ router.post(
       user_one.name,
       user_two.name
     );
-    log.info(convo);
     //create message here
     let message = await createMessageInConvo(
       req.body.body,
       req.body.user_one,
       convo.id
     );
-    res.send(JSON.stringify(message));
+    io.emit("newMessage", { message });
+    res.json({ message: message, convo: convo });
   })
 );
 

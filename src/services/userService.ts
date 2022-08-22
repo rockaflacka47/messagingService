@@ -58,7 +58,12 @@ router.post(
   runAsync(async (req: Request, res: Response) => {
     log.info(req.body);
     let ret = await getUserByNumber(req.body.number);
-    log.info(ret.password);
+    if (!ret) {
+      res.json({
+        auth: false,
+        message: "no user exists with that username or password",
+      });
+    }
     if (passwordHash.verify(req.body.password, ret.password)) {
       const id = ret.id;
       const token = jwt.sign({ id }, process.env.JWT_SIGN, {

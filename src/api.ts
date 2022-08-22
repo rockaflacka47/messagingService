@@ -1,8 +1,16 @@
 import express, { Request, Response } from "express";
 
-import { runAsync } from "./common/common";
+import { log, runAsync } from "./common/common";
+import { createServer } from "http";
+import { Server } from "socket.io";
 
 export const app = express();
+const httpServer = createServer(app);
+export const io = new Server(httpServer, {
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
 import morgan from "morgan";
 import cors from "cors";
 app.use(cors({ origin: true }));
@@ -19,6 +27,13 @@ app.use(
     verify: (req, res, buffer) => (req["rawBody"] = buffer),
   })
 );
+// const io = new Server({
+//   /* options */
+// });
+
+io.on("connection", (socket) => {});
+
+httpServer.listen(3331);
 
 app.get(
   "/",
