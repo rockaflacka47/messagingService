@@ -59,6 +59,7 @@ router.post(
     log.info(req.body);
     let ret = await getUserByNumber(req.body.number);
     if (!ret) {
+      res.set("Access-Control-Allow-Origin", "*");
       res.json({
         auth: false,
         message: "no user exists with that username or password",
@@ -73,6 +74,7 @@ router.post(
       res.set("Access-Control-Allow-Origin", "*");
       res.json({ auth: true, token: token, result: ret });
     } else {
+      res.set("Access-Control-Allow-Origin", "*");
       res.json({
         auth: false,
         message: "no user exists with that username or password",
