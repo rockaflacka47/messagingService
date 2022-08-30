@@ -70,6 +70,7 @@ router.post(
         expiresIn: 1200,
       });
 
+      res.set("Access-Control-Allow-Origin", "*");
       res.json({ auth: true, token: token, result: ret });
     } else {
       res.json({
