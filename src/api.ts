@@ -13,9 +13,10 @@ export const io = new Server(httpServer, {
 });
 import morgan from "morgan";
 import cors from "cors";
-//app.use(cors({ origin: ["http://15.237.36.201", "http://127.0.0.1:3000/"] }));
-app.use(cors());
-//
+
+app.use(cors({ origin: ["http://15.237.36.201", "http://127.0.0.1:3000/"] }));
+//app.use(cors({origin: true}));
+
 var userService = require("./services/userService");
 
 var messageService = require("./services/messageService");
