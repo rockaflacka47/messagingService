@@ -13,7 +13,7 @@ export const io = new Server(httpServer, {
 });
 import morgan from "morgan";
 import cors from "cors";
-app.use(cors({ origin: ["http://15.237.36.201:3000", "http://127.0.0.1:3000"] }));
+app.use(cors({ origin: ["http://15.237.36.201", "http://127.0.0.1:3000"] }));
 //app.use(cors({origin: false}));
 //
 var userService = require("./services/userService");
