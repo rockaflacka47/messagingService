@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 
-import { log, runAsync } from "./common/common";
+import { runAsync } from "./common/common";
 import { createServer } from "http";
 import { Server } from "socket.io";
 
@@ -43,8 +43,8 @@ app.get(
   })
 );
 
-app.use("/user", userService.router);
+app.use("/api/user", userService.router);
 
-app.use("/message", messageService);
+app.use("/api/message", messageService);
 
-app.use("/conversation", conversationService.router);
+app.use("/api/conversation", conversationService.router);

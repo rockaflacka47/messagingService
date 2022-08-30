@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc --project tsconfig.js",
+    "build": "tsc --project tsconfig.json",
     "start": "node lib/index.js",
     "dev": "concurrently \"tsc -w\" \"nodemon lib/index.js\""
   },
