@@ -8,7 +8,7 @@ export const app = express();
 const httpServer = createServer(app);
 export const io = new Server(httpServer, {
   cors: {
-    origin: true,
+    origin: 'https://messagingservice.david-rocker.com',
   },
 });
 import morgan from "morgan";
