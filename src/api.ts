@@ -8,7 +8,7 @@ export const app = express();
 const httpServer = createServer(app);
 export const io = new Server(httpServer, {
   cors: {
-    origin: "https://localhost:3000",
+    origin: true,
   },
 });
 import morgan from "morgan";
