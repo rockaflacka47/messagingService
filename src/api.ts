@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 
-import { runAsync } from "./common/common";
+import { log, runAsync } from "./common/common";
 import { createServer } from "http";
 import { Server } from "socket.io";
 
@@ -34,6 +34,10 @@ app.use(
 // });
 
 io.on("connection", (socket) => {});
+
+io.on("connect_error", (err) => {
+  log.info(`connect_error due to ${err.message}`);
+});
 
 httpServer.listen(3331);
 
