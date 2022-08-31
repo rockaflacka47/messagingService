@@ -59,7 +59,7 @@ router.post(
     log.info(req.body);
     let ret = await getUserByNumber(req.body.number);
     if (!ret) {
-      res.set("Access-Control-Allow-Origin", "http://15.237.36.201");
+      res.set("Access-Control-Allow-Origin", "*");
       log.info(res);
       res.json({
         auth: false,
@@ -72,10 +72,10 @@ router.post(
         expiresIn: 1200,
       });
 
-      res.set("Access-Control-Allow-Origin", "http://15.237.36.201");
+      res.set("Access-Control-Allow-Origin", "*");
       res.json({ auth: true, token: token, result: ret });
     } else {
-      res.set("Access-Control-Allow-Origin", "http://15.237.36.201");
+      res.set("Access-Control-Allow-Origin", "*");
       log.info(res);
       res.json({
         auth: false,
